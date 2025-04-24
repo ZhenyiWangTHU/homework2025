@@ -15,7 +15,7 @@ import utils
 class Encoder(nn.Module):
         def __init__(self, in_channels, hidden_channels):
             super(Encoder, self).__init__()
-            self.conv = GCNConv(in_channels, hidden_channels, cached=True)
+            self.conv = GCNConv(in_channels, hidden_channels, cached=False)
             self.prelu = nn.PReLU(hidden_channels)
 
         def forward(self, x, edge_index):

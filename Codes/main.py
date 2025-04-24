@@ -10,9 +10,9 @@ if __name__=="__main__":
     # relationship_file = './data/relationship_table.txt'
     # node_feature_file = './data/node_feature.npy'
     # embedding_save_file = './results/UKB_feature.npy'
-    relationship_file = '../Data/merged_df_long.txt'
-    node_feature_file = '../Data/UKB_node_feature.npy'
-    embedding_save_file = '../Data/UKB_feature.npy'
+    relationship_file = '/home/llma/wzy/comorbidity/Data/merged_df_long.txt'
+    node_feature_file = '/home/llma/wzy/comorbidity/Data/UKB_node_feature.npy'
+    embedding_save_file = '/home/llma/wzy/comorbidity/Data/UKB_feature.npy'
     
     features, adj = load_graph_network(relationship_file, node_feature_file)
     
