@@ -146,10 +146,12 @@ def fit_transform(features,
     
     # 创建 NeighborLoader
     data = torch_geometric.data.Data(x=features, edge_index=edge_index)
+    data.n_id = torch.arange(data.num_nodes)
     loader = NeighborLoader(
         data,
-        num_neighbors=[5,5],  # 每层采样的邻居数量
-        batch_size=20  # 批量大小
+        num_neighbors=[100,100],  # 每层采样的邻居数量
+        batch_size=50,  # 批量大小
+        shuffle=True
     )
     
     best = 1e9
@@ -172,10 +174,27 @@ def fit_transform(features,
             
     print('Loading {}th epoch'.format(best_t))
     model.load_state_dict(torch.load(tmp_path))
-    
+
+    loader_for_embeds = NeighborLoader(
+        data,
+        num_neighbors=[-1],  # all neighbors
+        batch_size=50,  # 批量大小
+        shuffle=False
+    )
+    all_embeds = []
     with torch.no_grad():
-        embeds, _, _ = model(features, edge_index)
-        embeds = embeds.detach().cpu().numpy()
+        model.eval()
+        for batch in loader_for_embeds:
+            batch_features = features[batch.n_id].to(device)
+            batch_features = batch_features.contiguous()
+            batch_edge_index = batch.edge_index.to(device)
+            batch_edge_index = batch_edge_index.contiguous()
+            batch_embeds, _, _ = model(batch_features, batch_edge_index)
+            # only retain top batch_size embeds
+            batch_embeds = batch_embeds[:batch.batch_size].detach().cpu().numpy()
+            all_embeds.append(batch_embeds)
+            del batch_features, batch_edge_index
+    embeds = np.concatenate(all_embeds, axis=0)
     np.save(save_path, embeds)
     
     return embeds
