@@ -82,13 +82,15 @@ from torch_geometric.loader import NeighborLoader, ClusterData, ClusterLoader, N
 
 ## Batch
 def fit_transform(features, 
-                  adj, 
-                  save_path, 
+                  adj,
+                  features_validation,
+                  adj_validation,
                   n_hid=512, 
                   device='cuda', 
                   print_log=True, 
                   patience=50, 
                   n_epoch=300, 
+                  learning_ratio = 0.00001,
                   tmp_path='best_dgi.pkl'):
     
     device = torch.device(device)
@@ -100,16 +102,30 @@ def fit_transform(features,
     else:
         edge_index = torch.LongTensor(np.where(adj > 0))
     
+    if issparse(adj_validation):
+        edge_index_validation = torch.LongTensor(np.column_stack(adj_validation.nonzero())).T
+    else:
+        edge_index_validation = torch.LongTensor(np.where(adj_validation > 0))
+        
     # 确保 edge_index 是连续的
     edge_index = edge_index.contiguous()
+    edge_index_validation = edge_index_validation.contiguous()
+    
     # Features_shape = n_sample * n_dim
     if isinstance(features, np.ndarray):
         features = torch.FloatTensor(features)
     elif issparse(features):
         features = torch.FloatTensor(features.toarray())
 
+    if isinstance(features_validation, np.ndarray):
+        features_validation = torch.FloatTensor(features_validation)
+    elif issparse(features_validation):
+        features_validation = torch.FloatTensor(features_validation.toarray())
+        
      # 确保 features 是连续的
     features = features.contiguous()
+    features_validation = features_validation.contiguous()
+    
     hid_units = n_hid
     feature_size = features.shape[1]
     
@@ -118,7 +134,7 @@ def fit_transform(features,
     corruption = models.corruption
     model = models.GraphLocalInfomax(hid_units, encoder, summary, corruption)
     model = model.to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.00001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_ratio)
 
     # # train for neighborLoader
     # def train():
@@ -150,9 +166,13 @@ def fit_transform(features,
      # 创建 NeighborLoader
     data = torch_geometric.data.Data(x=features, edge_index=edge_index)
     data.n_id = torch.arange(data.num_nodes)
+    data_validation = torch_geometric.data.Data(x=features_validation, edge_index=edge_index_validation)
+    data_validation.n_id = torch.arange(data_validation.num_nodes)
 
     features = features.to(device)
     features = features.contiguous()
+    features_validation = features_validation.to(device)
+    features_validation = features_validation.contiguous()
     
     # loader = NeighborLoader(
     #     data,
@@ -162,8 +182,8 @@ def fit_transform(features,
     # )
 
     ## Cluster-GCN
-    cluster_data = ClusterData(data, num_parts=1500, recursive=False, save_dir=None)
-    train_loader = ClusterLoader(cluster_data, batch_size=100, shuffle=True, num_workers=0)
+    cluster_data = ClusterData(data, num_parts=2000, recursive=False, save_dir=None)
+    train_loader = ClusterLoader(cluster_data, batch_size=200, shuffle=True, num_workers=0)
     #subgraph_loader = NeighborSampler(data.edge_index, sizes=[-1], batch_size=1024, shuffle=False, num_workers=12)
     
     # train for Cluster-GCN
@@ -187,52 +207,68 @@ def fit_transform(features,
             optimizer.step()
             nodes = batch.n_id.size(0)
             total_nodes += nodes
-            total_loss += loss.item()*nodes
+            total_loss += loss.item() * nodes
             del batch_features, batch_edge_index
         print('Total nodes: {:03d}'.format(total_nodes))
         return total_loss / total_nodes
+
+    loader_for_validation = NeighborLoader(
+        data_validation,
+        num_neighbors=[-1],  # all neighbors
+        batch_size=100,  # 批量大小
+        shuffle=False
+    )
+    def validation():
+        with torch.no_grad():
+            model.eval()
+            total_loss = 0
+            total_nodes = 0
+            for batch in loader_for_validation:
+                batch = batch.to(device)
+                batch_features = features_validation[batch.n_id]
+                # 确保 batch_features 是连续的
+                batch_features = batch_features.contiguous()
+                batch_edge_index = batch.edge_index
+                # 确保 batch_edge_index 是连续的
+                batch_edge_index = batch_edge_index.contiguous()
+                pos_z, neg_z, summary = model(batch_features, batch_edge_index)
+                loss = model.loss(pos_z, neg_z, summary)
+                nodes = batch.n_id.size(0)
+                total_nodes += nodes
+                total_loss += loss.item() * nodes
+                del batch_features, batch_edge_index
+            return total_loss / total_nodes
     
-    best = 1e9
+    best_train = 1e9
+    best_validation = 1e9
     for epoch in range(1, n_epoch+1):
-        loss = train()
-        if loss < best:
-            best = loss
+        loss_train = train()
+        loss_validation = validation()
+        if loss_train < best_train:
+            best_train = loss_train
             best_t = epoch
             cnt_wait = 0
             torch.save(model.state_dict(), tmp_path)
+            if loss_validation < best_validation:
+                best_validation = loss_validation
+                val_wait = 0
+            else:
+                val_wait += 1
         else:
             cnt_wait += 1
-
-        if cnt_wait == patience:
-            print('Early stopping!')
-            break
-
-        if print_log:
-            print('Epoch: {:03d}, Loss: {:.4f}'.format(epoch, loss))
             
-    print('Loading {}th epoch'.format(best_t))
-    model.load_state_dict(torch.load(tmp_path))
-
-    loader_for_embeds = NeighborLoader(
-        data,
-        num_neighbors=[-1],  # all neighbors
-        batch_size=500,  # 批量大小
-        shuffle=False
-    )
-    all_embeds = []
-    with torch.no_grad():
-        model.eval()
-        for batch in loader_for_embeds:
-            batch_features = features[batch.n_id].to(device)
-            #batch_features = batch_features.contiguous()
-            batch_edge_index = batch.edge_index.to(device)
-            #batch_edge_index = batch_edge_index.contiguous()
-            batch_embeds, _, _ = model(batch_features, batch_edge_index)
-            # only retain top batch_size embeds
-            batch_embeds = batch_embeds[:batch.batch_size].detach().cpu().numpy()
-            all_embeds.append(batch_embeds)
-            del batch_features, batch_edge_index
-    embeds = np.concatenate(all_embeds, axis=0)
-    np.save(save_path, embeds)
-    
-    return embeds
+        if val_wait == patience - 10:
+            print('Change the learning ratio for validation loss!')
+            learning_ratio = learning_ratio * 0.5
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = learning_ratio
+            
+        if cnt_wait == patience:
+            print('Early stopping for train loss!')
+            break
+            
+        if print_log:
+            print('Epoch: {:03d}, Train Loss: {:.4f}'.format(epoch, loss_train))
+            print('Epoch: {:03d}, Validation Loss: {:.4f}'.format(epoch, loss_validation))
+            
+    print('The best model: {}th epoch'.format(best_t))

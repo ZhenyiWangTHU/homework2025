@@ -1,0 +1,71 @@
+Reading graph:   0%|          | 0/342493 [00:00<?, ?it/s]Reading graph:  60%|██████    | 205789/342493 [00:00<00:00, 2038755.09it/s]                                                                           Epoch: 001, Loss: 0.6905
+Epoch: 002, Loss: 0.6889
+Epoch: 003, Loss: 0.6877
+Epoch: 004, Loss: 0.6866
+Epoch: 005, Loss: 0.6859
+Epoch: 006, Loss: 0.6852
+Epoch: 007, Loss: 0.6847
+Epoch: 008, Loss: 0.6842
+Epoch: 009, Loss: 0.6838
+Epoch: 010, Loss: 0.6832
+Epoch: 011, Loss: 0.6830
+Epoch: 012, Loss: 0.6827
+Epoch: 013, Loss: 0.6822
+Epoch: 014, Loss: 0.6818
+Epoch: 015, Loss: 0.6819
+Epoch: 016, Loss: 0.6817
+Epoch: 017, Loss: 0.6815
+Epoch: 018, Loss: 0.6813
+Epoch: 019, Loss: 0.6812
+Epoch: 020, Loss: 0.6809
+Epoch: 021, Loss: 0.6809
+Epoch: 022, Loss: 0.6807
+Epoch: 023, Loss: 0.6807
+Epoch: 024, Loss: 0.6806
+Epoch: 025, Loss: 0.6803
+Epoch: 026, Loss: 0.6804
+Epoch: 027, Loss: 0.6802
+Epoch: 028, Loss: 0.6800
+Epoch: 029, Loss: 0.6800
+Epoch: 030, Loss: 0.6798
+Epoch: 031, Loss: 0.6800
+Epoch: 032, Loss: 0.6799
+Epoch: 033, Loss: 0.6796
+Epoch: 034, Loss: 0.6795
+Epoch: 035, Loss: 0.6795
+Epoch: 036, Loss: 0.6795
+Epoch: 037, Loss: 0.6795
+Epoch: 038, Loss: 0.6794
+Epoch: 039, Loss: 0.6794
+Epoch: 040, Loss: 0.6793
+Epoch: 041, Loss: 0.6793
+Epoch: 042, Loss: 0.6792
+Epoch: 043, Loss: 0.6793
+Epoch: 044, Loss: 0.6791
+Epoch: 045, Loss: 0.6793
+Epoch: 046, Loss: 0.6791
+Epoch: 047, Loss: 0.6789
+Epoch: 048, Loss: 0.6792
+Epoch: 049, Loss: 0.6790
+Epoch: 050, Loss: 0.6789
+Epoch: 051, Loss: 0.6788
+Epoch: 052, Loss: 0.6787
+Traceback (most recent call last):
+  File "/home/llma/wzy/comorbidity/Codes/main_hmln.py", line 23, in <module>
+    fit_transform(features, adj, embedding_save_file, device='cuda', tmp_path='hmln_best_dgi.pkl')
+  File "/home/llma/wzy/comorbidity/Codes/train.py", line 159, in fit_transform
+    loss = train()
+           ^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/train.py", line 124, in train
+    for batch in loader:
+                 ^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch_geometric/loader/base.py", line 39, in __next__
+    return self.transform_fn(next(self.iterator))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch_geometric/loader/node_loader.py", line 193, in filter_fn
+    data.e_id = perm[edge] if perm is not None else edge
+    ^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch_geometric/data/data.py", line 563, in __setattr__
+    def __setattr__(self, key: str, value: Any):
+
+KeyboardInterrupt
