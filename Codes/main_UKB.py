@@ -18,16 +18,16 @@ if __name__=="__main__":
     # train
     # relationship_file_train = '/home/llma/wzy/comorbidity/Data/train_data_splitClusters.txt'
     # node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt_train_splitClusters.npy'
-    relationship_file_train = '/home/llma/wzy/comorbidity/Data/merged_df_long_convert.txt'
-    node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt.npy'
+    relationship_file_train = '../Data/merged_df_long_convert.txt'
+    node_feature_file_train = '../Data/UKB_node_feature_gpt.npy'
     features_train, adj_train = load_graph_network(relationship_file_train, node_feature_file_train)
     #adj = adj + np.eye(adj.shape[0])
     # 使用稀疏矩阵的方式添加自环
     adj_train = adj_train + identity(adj_train.shape[0], dtype=adj_train.dtype, format='csr')
 
     # validate
-    relationship_file_val = '/home/llma/wzy/comorbidity/Data/val_data_splitClusters.txt'
-    node_feature_file_val = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt_val_splitClusters.npy'
+    relationship_file_val = '../Data/val_data_splitClusters.txt'
+    node_feature_file_val = '../Data/UKB_node_feature_gpt_val_splitClusters.npy'
     features_val, adj_val = load_graph_network(relationship_file_val, node_feature_file_val)
     #adj = adj + np.eye(adj.shape[0])
     # 使用稀疏矩阵的方式添加自环
@@ -45,14 +45,14 @@ if __name__=="__main__":
                   tmp_path='UKB_best_dgi.pkl')    
 
     # embed all data
-    relationship_file = '/home/llma/wzy/comorbidity/Data/merged_df_long_convert.txt'
-    node_feature_file = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt.npy'
-    embedding_save_file = '/home/llma/wzy/comorbidity/Data/UKB_feature.npy'
+    relationship_file = '../Data/merged_df_long_convert.txt'
+    node_feature_file = '../Data/UKB_node_feature_gpt.npy'
+    embedding_save_file = '../Data/UKB_feature.npy'
     features, adj = load_graph_network(relationship_file, node_feature_file)
     # 使用稀疏矩阵的方式添加自环
     adj = adj + identity(adj.shape[0], dtype=adj.dtype, format='csr')
 
-    embedData(modelPath = 'UKB_best_dgi.pkl', 
+    embedData(modelPath = './UKB_best_dgi.pkl', 
               features = features, 
               adj = adj, 
               embeddingSavePath = embedding_save_file, 
