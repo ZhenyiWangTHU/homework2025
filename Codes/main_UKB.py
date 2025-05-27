@@ -16,8 +16,10 @@ if __name__=="__main__":
     # embedding_save_file = '/home/llma/wzy/comorbidity/Data/UKB_feature.npy'
     
     # train
-    relationship_file_train = '/home/llma/wzy/comorbidity/Data/train_data_splitClusters.txt'
-    node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt_train_splitClusters.npy'
+    # relationship_file_train = '/home/llma/wzy/comorbidity/Data/train_data_splitClusters.txt'
+    # node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt_train_splitClusters.npy'
+    relationship_file_train = '/home/llma/wzy/comorbidity/Data/merged_df_long_convert.txt'
+    node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt.npy'
     features_train, adj_train = load_graph_network(relationship_file_train, node_feature_file_train)
     #adj = adj + np.eye(adj.shape[0])
     # 使用稀疏矩阵的方式添加自环
@@ -43,7 +45,7 @@ if __name__=="__main__":
                   tmp_path='UKB_best_dgi.pkl')    
 
     # embed all data
-    relationship_file = '/home/llma/wzy/comorbidity/Data/merged_df_long_subset.txt'
+    relationship_file = '/home/llma/wzy/comorbidity/Data/merged_df_long_convert.txt'
     node_feature_file = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt.npy'
     embedding_save_file = '/home/llma/wzy/comorbidity/Data/UKB_feature.npy'
     features, adj = load_graph_network(relationship_file, node_feature_file)

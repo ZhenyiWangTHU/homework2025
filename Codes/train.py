@@ -241,8 +241,8 @@ def fit_transform(features,
     #         return total_loss / total_nodes
 
     ## Cluster-GCN
-    validation_cluster_data = ClusterData(data_validation, num_parts=200, recursive=False, save_dir=None)
-    validation_loader = ClusterLoader(validation_cluster_data, batch_size=20, shuffle=False, num_workers=0)
+    validation_cluster_data = ClusterData(data_validation, num_parts=500, recursive=False, save_dir=None)
+    validation_loader = ClusterLoader(validation_cluster_data, batch_size=50, shuffle=False, num_workers=0)
     
     def validation():
         model.eval()
@@ -283,7 +283,7 @@ def fit_transform(features,
         else:
             cnt_wait += 1
             
-        if val_wait == 20:
+        if val_wait == 10:
             print('Change the learning ratio for validation loss!')
             for param_group in optimizer.param_groups:
                 param_group['lr'] *= 0.1
@@ -293,7 +293,6 @@ def fit_transform(features,
             break
             
         if print_log:
-            print('Epoch: {:03d}, Train Loss: {:.4f}'.format(epoch, loss_train))
-            print('Epoch: {:03d}, Validation Loss: {:.4f}'.format(epoch, loss_validation))
+            print('Epoch: {:03d}, Train Loss: {:.4f}, Validation Loss: {:.4f}'.format(epoch, loss_train, loss_validation))
             
     print('The best model: {}th epoch'.format(best_t))
