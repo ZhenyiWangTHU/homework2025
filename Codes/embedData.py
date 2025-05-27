@@ -18,7 +18,9 @@ def embedData(modelPath,
     if issparse(adj):
         edge_index = torch.LongTensor(np.column_stack(adj.nonzero())).T
     else:
-        edge_index = torch.LongTensor(np.where(adj > 0))
+        # 对于密集矩阵，获取所有非零元素的索引并转换为2×E格式
+        row, col = np.where(adj > 0)
+        edge_index = torch.LongTensor(np.vstack((row, col)))
         
     edge_index = edge_index.contiguous()
 

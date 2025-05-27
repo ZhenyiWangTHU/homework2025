@@ -88,7 +88,7 @@ def fit_transform(features,
                   n_hid=512, 
                   device='cuda', 
                   print_log=True, 
-                  patience=100, 
+                  patience=30, 
                   n_epoch=300, 
                   learning_ratio = 0.00001,
                   tmp_path='best_dgi.pkl'):
@@ -296,3 +296,27 @@ def fit_transform(features,
             print('Epoch: {:03d}, Train Loss: {:.4f}, Validation Loss: {:.4f}'.format(epoch, loss_train, loss_validation))
             
     print('The best model: {}th epoch'.format(best_t))
+    
+    # # embedding    
+    # loader_for_embeds = NeighborLoader(
+    #     data,
+    #     num_neighbors=[-1],  # all neighbors
+    #     batch_size=100,  # 批量大小
+    #     shuffle=False
+    # )
+
+    # all_embeds = []
+    # with torch.no_grad():
+    #     model.eval()
+    #     for batch in loader_for_embeds:
+    #         batch_features = features[batch.n_id].to(device)
+    #         #batch_features = batch_features.contiguous()
+    #         batch_edge_index = batch.edge_index.to(device)
+    #         #batch_edge_index = batch_edge_index.contiguous()
+    #         batch_embeds, _, _ = model(batch_features, batch_edge_index)
+    #         # only retain top batch_size embeds
+    #         batch_embeds = batch_embeds[:batch.batch_size].detach().cpu().numpy()
+    #         all_embeds.append(batch_embeds)
+    #         del batch_features, batch_edge_index
+    # embeds = np.concatenate(all_embeds, axis=0)
+    # np.save('../Data/UKB_feature.npy', embeds)

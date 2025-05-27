@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/llma/wzy/comorbidity/Codes/main.py", line 17, in <module>
+    features, adj = load_graph_network(relationship_file, node_feature_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/embedding.py", line 139, in load_graph_network
+    A = csr_matrix((data, (row, col)), shape=(n_node, n_node), dtype=np.float32)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/scipy/sparse/_compressed.py", line 55, in __init__
+    coo = self._coo_container(arg1, shape=shape, dtype=dtype)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/scipy/sparse/_coo.py", line 61, in __init__
+    self.data = getdata(obj, copy=copy, dtype=dtype)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/scipy/sparse/_sputils.py", line 142, in getdata
+    data = np.array(obj, dtype=dtype, copy=copy)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: 'g'
