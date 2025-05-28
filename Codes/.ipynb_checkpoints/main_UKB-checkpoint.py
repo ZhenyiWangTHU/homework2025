@@ -15,10 +15,10 @@ if __name__=="__main__":
     # embedding_save_file = '/home/llma/wzy/comorbidity/Data/UKB_feature.npy'
     
     # train
-    # relationship_file_train = '/home/llma/wzy/comorbidity/Data/train_data_splitClusters.txt'
-    # node_feature_file_train = '/home/llma/wzy/comorbidity/Data/UKB_node_feature_gpt_train_splitClusters.npy'
-    relationship_file_train = '../Data/train_data_splitClusters.txt'
-    node_feature_file_train = '../Data/UKB_node_feature_gpt_train_splitClusters.npy'
+    # relationship_file_train = '../Data/train_data_splitClusters.txt'
+    # node_feature_file_train = '../Data/UKB_node_feature_gpt_train_splitClusters.npy'
+    relationship_file_train = '../Data/merged_df_long_convert.txt'
+    node_feature_file_train = '../Data/UKB_node_feature_gpt.npy'
     # relationship_file_train = '/home/llma/wzy/UKB_net/GLIM-main/data/relationship_table_20250427.txt'
     # node_feature_file_train = '/home/llma/wzy/UKB_net/GLIM-main/data/node_feature_20250427.npy'
     features_train, adj_train = load_graph_network(relationship_file_train, node_feature_file_train)
