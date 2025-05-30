@@ -136,34 +136,6 @@ def fit_transform(features,
     model = model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_ratio)
 
-    # # train for neighborLoader
-    # def train():
-    #     model.train()
-    #     total_loss = 0
-    #     for batch in loader:
-    #         optimizer.zero_grad()
-    #         #print(f"Min node ID: {batch.n_id.min()}, Max node ID: {batch.n_id.max()}, Features shape: {features.shape}")
-    #         batch_features = features[batch.n_id].to(device)
-    #         # 确保 batch_features 是连续的
-    #         batch_features = batch_features.contiguous()
-    #         batch_edge_index = batch.edge_index.to(device)
-    #         # 确保 batch_edge_index 是连续的
-    #         batch_edge_index = batch_edge_index.contiguous()
-    #         #print(f"Batch features shape: {batch_features.shape}")
-    #         #print(f"batch_edge_index.shape: {batch_edge_index.shape}")
-    #         #print(f"Minimum node ID in edge_index: {torch.min(batch_edge_index)}")
-    #         #print(f"Maximum node ID in edge_index: {torch.max(batch_edge_index)}")
-    #         #print(f"Original node IDs len: {len(batch.n_id)}")
-    #         pos_z, neg_z, summary = model(batch_features, batch_edge_index)
-    #         loss = model.loss(pos_z, neg_z, summary)
-    #         loss.backward()
-    #         optimizer.step()
-    #         total_loss += loss.item()
-    #         del batch_features, batch_edge_index
-    #         #print('one batch!')
-    #     return total_loss / len(loader)
-
-     # 创建 NeighborLoader
     data = torch_geometric.data.Data(x=features, edge_index=edge_index)
     data.n_id = torch.arange(data.num_nodes)
     data_validation = torch_geometric.data.Data(x=features_validation, edge_index=edge_index_validation)
@@ -173,25 +145,21 @@ def fit_transform(features,
     features = features.contiguous()
     features_validation = features_validation.to(device)
     features_validation = features_validation.contiguous()
-    
-    # loader = NeighborLoader(
-    #     data,
-    #     num_neighbors=[2000,2000],  # 每层采样的邻居数量
-    #     batch_size=5,  # 批量大小
-    #     shuffle=True
-    # )
 
-    ## Cluster-GCN
-    cluster_data = ClusterData(data, num_parts=2000, recursive=False, save_dir=None)
-    train_loader = ClusterLoader(cluster_data, batch_size=200, shuffle=True, num_workers=0)
-    #subgraph_loader = NeighborSampler(data.edge_index, sizes=[-1], batch_size=1024, shuffle=False, num_workers=12)
-    
-    # train for Cluster-GCN
+    # 创建 NeighborLoader
+    neighbor_loader = NeighborLoader(
+        data,
+        num_neighbors=[-1,-1,-1],  # 每层采样的邻居数量
+        batch_size=10,  # 批量大小
+        shuffle=True
+    )
+
+    # train for neighborLoader
     def train():
         model.train()
-        total_loss = 0.0
+        total_loss = 0
         total_nodes = 0
-        for batch in train_loader:
+        for batch in neighbor_loader:
             batch = batch.to(device)
             optimizer.zero_grad()
 
@@ -202,6 +170,12 @@ def fit_transform(features,
             # 确保 batch_edge_index 是连续的
             batch_edge_index = batch_edge_index.contiguous()
             pos_z, neg_z, summary = model(batch_features, batch_edge_index)
+
+            batch_size = batch.batch_size
+            pos_z = pos_z[:batch_size]
+            neg_z = neg_z[:batch_size]
+            summary = summary[:batch_size]
+            
             loss = model.loss(pos_z, neg_z, summary)
             loss.backward()
             optimizer.step()
@@ -209,22 +183,84 @@ def fit_transform(features,
             total_nodes += nodes
             total_loss += loss.item() * nodes
             del batch_features, batch_edge_index
+            #print('one batch!')
         print('Total nodes: {:03d}'.format(total_nodes))
         return total_loss / total_nodes
+    # ## Cluster-GCN train
+    # cluster_data = ClusterData(data, num_parts=10, recursive=False, save_dir=None)
+    # train_loader = ClusterLoader(cluster_data, batch_size=2, shuffle=True, num_workers=0)
+    
+    # # train for Cluster-GCN
+    # def train():
+    #     model.train()
+    #     total_loss = 0.0
+    #     total_nodes = 0
+    #     for batch in train_loader:
+    #         batch = batch.to(device)
+    #         optimizer.zero_grad()
 
-    # loader_for_validation = NeighborLoader(
-    #     data_validation,
-    #     num_neighbors=[-1],  # all neighbors
-    #     batch_size=100,  # 批量大小
-    #     shuffle=False
-    # )
+    #         batch_features = features[batch.n_id]
+    #         # 确保 batch_features 是连续的
+    #         batch_features = batch_features.contiguous()
+    #         batch_edge_index = batch.edge_index
+    #         # 确保 batch_edge_index 是连续的
+    #         batch_edge_index = batch_edge_index.contiguous()
+    #         pos_z, neg_z, summary = model(batch_features, batch_edge_index)
+    #         loss = model.loss(pos_z, neg_z, summary)
+    #         loss.backward()
+    #         optimizer.step()
+    #         nodes = batch.n_id.size(0)
+    #         total_nodes += nodes
+    #         total_loss += loss.item() * nodes
+    #         del batch_features, batch_edge_index
+    #     print('Total nodes: {:03d}'.format(total_nodes))
+    #     return total_loss / total_nodes
 
+    # validation for neighborLoader
+    loader_for_validation = NeighborLoader(
+        data_validation,
+        num_neighbors=[-1, -1, -1],  # all neighbors
+        batch_size=10,  # 批量大小
+        shuffle=False
+    )
+
+    def validation():
+        model.eval()
+        with torch.no_grad():
+            total_loss = 0.0
+            total_nodes = 0
+            for batch in loader_for_validation:
+                batch = batch.to(device)
+                batch_features = features_validation[batch.n_id]
+                # 确保 batch_features 是连续的
+                batch_features = batch_features.contiguous()
+                batch_edge_index = batch.edge_index
+                # 确保 batch_edge_index 是连续的
+                batch_edge_index = batch_edge_index.contiguous()
+                pos_z, neg_z, summary = model(batch_features, batch_edge_index)
+
+                batch_size = batch.batch_size
+                pos_z = pos_z[:batch_size]
+                neg_z = neg_z[:batch_size]
+                summary = summary[:batch_size]
+            
+                loss = model.loss(pos_z, neg_z, summary)
+                nodes = batch.n_id.size(0)
+                total_nodes += nodes
+                total_loss += loss.item() * nodes
+                del batch_features, batch_edge_index
+            return total_loss / total_nodes
+
+    # ## Cluster-GCN validation
+    # validation_cluster_data = ClusterData(data_validation, num_parts=5, recursive=False, save_dir=None)
+    # validation_loader = ClusterLoader(validation_cluster_data, batch_size=1, shuffle=False, num_workers=0)
+    
     # def validation():
     #     model.eval()
     #     with torch.no_grad():
     #         total_loss = 0.0
     #         total_nodes = 0
-    #         for batch in loader_for_validation:
+    #         for batch in validation_loader:
     #             batch = batch.to(device)
     #             batch_features = features_validation[batch.n_id]
     #             # 确保 batch_features 是连续的
@@ -239,31 +275,6 @@ def fit_transform(features,
     #             total_loss += loss.item() * nodes
     #             del batch_features, batch_edge_index
     #         return total_loss / total_nodes
-
-    ## Cluster-GCN
-    validation_cluster_data = ClusterData(data_validation, num_parts=500, recursive=False, save_dir=None)
-    validation_loader = ClusterLoader(validation_cluster_data, batch_size=50, shuffle=False, num_workers=0)
-    
-    def validation():
-        model.eval()
-        with torch.no_grad():
-            total_loss = 0.0
-            total_nodes = 0
-            for batch in validation_loader:
-                batch = batch.to(device)
-                batch_features = features_validation[batch.n_id]
-                # 确保 batch_features 是连续的
-                batch_features = batch_features.contiguous()
-                batch_edge_index = batch.edge_index
-                # 确保 batch_edge_index 是连续的
-                batch_edge_index = batch_edge_index.contiguous()
-                pos_z, neg_z, summary = model(batch_features, batch_edge_index)
-                loss = model.loss(pos_z, neg_z, summary)
-                nodes = batch.n_id.size(0)
-                total_nodes += nodes
-                total_loss += loss.item() * nodes
-                del batch_features, batch_edge_index
-            return total_loss / total_nodes
     
     best_train = 1e9
     best_validation = 1e9

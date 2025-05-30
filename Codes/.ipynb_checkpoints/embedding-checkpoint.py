@@ -138,7 +138,7 @@ def load_graph_network(adj_path, feature_path):
         data.append(relationship_list[i])  # 使用实际的关系值
     A = csr_matrix((data, (row, col)), shape=(n_node, n_node), dtype=np.float32)
     
-    adj_matrix = pd.read_csv(adj_path, sep='\t')
+    adj_matrix = pd.read_csv(adj_path, sep='\t', dtype={'node1':str, 'node2': str, 'relationship': float})
     # 构建图所需的边列表
     edges = [(row['node1'], row['node2'], row['relationship']) for _, row in adj_matrix.iterrows()]
 

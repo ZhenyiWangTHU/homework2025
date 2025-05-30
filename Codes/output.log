@@ -1,453 +1,1 @@
-/home/llma/wzy/comorbidity/Codes/embedding.py:141: DtypeWarning: Columns (0,1) have mixed types. Specify dtype option on import or set low_memory=False.
-  adj_matrix = pd.read_csv(adj_path, sep='\t')
-Reading graph:   0%|          | 0/12786750 [00:00<?, ?it/s]Reading graph:   2%|▏         | 220042/12786750 [00:00<00:05, 2200175.55it/s]Reading graph:   3%|▎         | 440060/12786750 [00:00<00:05, 2196815.16it/s]Reading graph:   5%|▌         | 659742/12786750 [00:00<00:05, 2158207.93it/s]Reading graph:   7%|▋         | 875639/12786750 [00:00<00:05, 2119469.39it/s]Reading graph:   9%|▊         | 1087696/12786750 [00:00<00:05, 1983780.17it/s]Reading graph:  10%|█         | 1299688/12786750 [00:00<00:05, 2027465.55it/s]Reading graph:  12%|█▏        | 1512098/12786750 [00:00<00:05, 2057827.56it/s]Reading graph:  13%|█▎        | 1718734/12786750 [00:00<00:05, 1902827.23it/s]Reading graph:  15%|█▌        | 1940486/12786750 [00:00<00:05, 1994074.86it/s]Reading graph:  17%|█▋        | 2166048/12786750 [00:01<00:05, 2070699.89it/s]Reading graph:  19%|█▊        | 2393162/12786750 [00:01<00:04, 2129825.67it/s]Reading graph:  20%|██        | 2618880/12786750 [00:01<00:04, 2167530.36it/s]Reading graph:  22%|██▏       | 2847645/12786750 [00:01<00:04, 2203248.92it/s]Reading graph:  24%|██▍       | 3077162/12786750 [00:01<00:04, 2230643.05it/s]Reading graph:  26%|██▌       | 3306934/12786750 [00:01<00:04, 2250661.20it/s]Reading graph:  28%|██▊       | 3535896/12786750 [00:01<00:04, 2262291.05it/s]Reading graph:  29%|██▉       | 3763678/12786750 [00:01<00:03, 2266915.34it/s]Reading graph:  31%|███       | 3990620/12786750 [00:01<00:03, 2216889.83it/s]Reading graph:  33%|███▎      | 4220088/12786750 [00:01<00:03, 2239810.08it/s]Reading graph:  35%|███▍      | 4448260/12786750 [00:02<00:03, 2252211.65it/s]Reading graph:  37%|███▋      | 4675861/12786750 [00:02<00:03, 2259266.99it/s]Reading graph:  38%|███▊      | 4906434/12786750 [00:02<00:03, 2273096.29it/s]Reading graph:  40%|████      | 5133877/12786750 [00:02<00:03, 1988229.41it/s]Reading graph:  42%|████▏     | 5373440/12786750 [00:02<00:03, 2098929.12it/s]Reading graph:  44%|████▍     | 5604288/12786750 [00:02<00:03, 2157511.52it/s]Reading graph:  46%|████▌     | 5840192/12786750 [00:02<00:03, 2215021.42it/s]Reading graph:  48%|████▊     | 6107175/12786750 [00:02<00:02, 2346732.45it/s]Reading graph:  50%|████▉     | 6380331/12786750 [00:02<00:02, 2459345.72it/s]Reading graph:  52%|█████▏    | 6658441/12786750 [00:03<00:02, 2554180.43it/s]Reading graph:  54%|█████▍    | 6938033/12786750 [00:03<00:02, 2625795.17it/s]Reading graph:  56%|█████▋    | 7219562/12786750 [00:03<00:02, 2682130.88it/s]Reading graph:  59%|█████▊    | 7505300/12786750 [00:03<00:01, 2734357.46it/s]Reading graph:  61%|██████    | 7781758/12786750 [00:03<00:01, 2743345.93it/s]Reading graph:  63%|██████▎   | 8056593/12786750 [00:03<00:01, 2735028.73it/s]Reading graph:  65%|██████▌   | 8337844/12786750 [00:03<00:01, 2758136.24it/s]Reading graph:  67%|██████▋   | 8622274/12786750 [00:03<00:01, 2783873.38it/s]Reading graph:  70%|██████▉   | 8905991/12786750 [00:03<00:01, 2799795.11it/s]Reading graph:  72%|███████▏  | 9188864/12786750 [00:03<00:01, 2808406.43it/s]Reading graph:  74%|███████▍  | 9469802/12786750 [00:04<00:01, 2807469.42it/s]Reading graph:  76%|███████▋  | 9752822/12786750 [00:04<00:01, 2814251.77it/s]Reading graph:  78%|███████▊  | 10034296/12786750 [00:04<00:00, 2810598.39it/s]Reading graph:  81%|████████  | 10316397/12786750 [00:04<00:00, 2813687.89it/s]Reading graph:  83%|████████▎ | 10599718/12786750 [00:04<00:00, 2819508.97it/s]Reading graph:  85%|████████▌ | 10882548/12786750 [00:04<00:00, 2822118.91it/s]Reading graph:  87%|████████▋ | 11164773/12786750 [00:04<00:00, 2798361.16it/s]Reading graph:  90%|████████▉ | 11444663/12786750 [00:04<00:00, 2771207.26it/s]Reading graph:  92%|█████████▏| 11721866/12786750 [00:04<00:00, 2539080.86it/s]Reading graph:  94%|█████████▎| 11979461/12786750 [00:04<00:00, 2431447.37it/s]Reading graph:  96%|█████████▌| 12225633/12786750 [00:05<00:00, 2258795.09it/s]Reading graph:  97%|█████████▋| 12455183/12786750 [00:05<00:00, 2234396.14it/s]Reading graph:  99%|█████████▉| 12681003/12786750 [00:05<00:00, 2108757.06it/s]                                                                               /home/llma/wzy/comorbidity/Codes/embedding.py:141: DtypeWarning: Columns (0,1) have mixed types. Specify dtype option on import or set low_memory=False.
-  adj_matrix = pd.read_csv(adj_path, sep='\t')
-Reading graph:   0%|          | 0/2886751 [00:00<?, ?it/s]Reading graph:   7%|▋         | 206243/2886751 [00:00<00:01, 2062250.05it/s]Reading graph:  15%|█▍        | 422113/2886751 [00:00<00:01, 2118933.95it/s]Reading graph:  22%|██▏       | 634239/2886751 [00:00<00:01, 2119964.65it/s]Reading graph:  30%|██▉       | 857072/2886751 [00:00<00:00, 2162713.10it/s]Reading graph:  37%|███▋      | 1073344/2886751 [00:00<00:00, 2149881.60it/s]Reading graph:  46%|████▌     | 1329666/2886751 [00:00<00:00, 2289834.04it/s]Reading graph:  54%|█████▍    | 1562546/2886751 [00:00<00:00, 2302503.89it/s]Reading graph:  64%|██████▍   | 1842914/2886751 [00:00<00:00, 2461726.14it/s]Reading graph:  74%|███████▍  | 2131759/2886751 [00:00<00:00, 2594929.12it/s]Reading graph:  83%|████████▎ | 2391310/2886751 [00:01<00:00, 2405464.82it/s]Reading graph:  91%|█████████▏| 2634550/2886751 [00:01<00:00, 2412802.75it/s]Reading graph: 100%|█████████▉| 2877740/2886751 [00:01<00:00, 2395180.29it/s]                                                                             Computing METIS partitioning...
-Done!
-Computing METIS partitioning...
-Done!
-Total nodes: 49315
-Epoch: 001, Train Loss: 0.6768, Validation Loss: 0.6896
-Total nodes: 49315
-Epoch: 002, Train Loss: 0.6257, Validation Loss: 0.6829
-Total nodes: 49315
-Epoch: 003, Train Loss: 0.5373, Validation Loss: 0.6718
-Total nodes: 49315
-Epoch: 004, Train Loss: 0.4690, Validation Loss: 0.6629
-Total nodes: 49315
-Epoch: 005, Train Loss: 0.4386, Validation Loss: 0.6544
-Total nodes: 49315
-Epoch: 006, Train Loss: 0.4148, Validation Loss: 0.6448
-Total nodes: 49315
-Epoch: 007, Train Loss: 0.3857, Validation Loss: 0.6345
-Total nodes: 49315
-Epoch: 008, Train Loss: 0.3535, Validation Loss: 0.6214
-Total nodes: 49315
-Epoch: 009, Train Loss: 0.3201, Validation Loss: 0.6093
-Total nodes: 49315
-Epoch: 010, Train Loss: 0.2814, Validation Loss: 0.5862
-Total nodes: 49315
-Epoch: 011, Train Loss: 0.2414, Validation Loss: 0.5638
-Total nodes: 49315
-Epoch: 012, Train Loss: 0.2025, Validation Loss: 0.5390
-Total nodes: 49315
-Epoch: 013, Train Loss: 0.1681, Validation Loss: 0.5166
-Total nodes: 49315
-Epoch: 014, Train Loss: 0.1395, Validation Loss: 0.5025
-Total nodes: 49315
-Epoch: 015, Train Loss: 0.1234, Validation Loss: 0.4988
-Total nodes: 49315
-Epoch: 016, Train Loss: 0.1026, Validation Loss: 0.4981
-Total nodes: 49315
-Epoch: 017, Train Loss: 0.0921, Validation Loss: 0.4918
-Total nodes: 49315
-Epoch: 018, Train Loss: 0.0830, Validation Loss: 0.4939
-Total nodes: 49315
-Epoch: 019, Train Loss: 0.0783, Validation Loss: 0.4984
-Total nodes: 49315
-Epoch: 020, Train Loss: 0.0726, Validation Loss: 0.5009
-Total nodes: 49315
-Epoch: 021, Train Loss: 0.0647, Validation Loss: 0.4926
-Total nodes: 49315
-Epoch: 022, Train Loss: 0.0658, Validation Loss: 0.5040
-Total nodes: 49315
-Epoch: 023, Train Loss: 0.0599, Validation Loss: 0.5050
-Total nodes: 49315
-Epoch: 024, Train Loss: 0.0577, Validation Loss: 0.5177
-Total nodes: 49315
-Epoch: 025, Train Loss: 0.0548, Validation Loss: 0.5013
-Total nodes: 49315
-Epoch: 026, Train Loss: 0.0517, Validation Loss: 0.5078
-Total nodes: 49315
-Epoch: 027, Train Loss: 0.0507, Validation Loss: 0.5224
-Total nodes: 49315
-Epoch: 028, Train Loss: 0.0522, Validation Loss: 0.5181
-Total nodes: 49315
-Epoch: 029, Train Loss: 0.0517, Validation Loss: 0.5202
-Total nodes: 49315
-Change the learning ratio for validation loss!
-Epoch: 030, Train Loss: 0.0478, Validation Loss: 0.5243
-Total nodes: 49315
-Epoch: 031, Train Loss: 0.0453, Validation Loss: 0.5214
-Total nodes: 49315
-Epoch: 032, Train Loss: 0.0500, Validation Loss: 0.5259
-Total nodes: 49315
-Epoch: 033, Train Loss: 0.0493, Validation Loss: 0.5185
-Total nodes: 49315
-Epoch: 034, Train Loss: 0.0479, Validation Loss: 0.5295
-Total nodes: 49315
-Epoch: 035, Train Loss: 0.0476, Validation Loss: 0.5199
-Total nodes: 49315
-Epoch: 036, Train Loss: 0.0513, Validation Loss: 0.5314
-Total nodes: 49315
-Epoch: 037, Train Loss: 0.0481, Validation Loss: 0.5294
-Total nodes: 49315
-Epoch: 038, Train Loss: 0.0460, Validation Loss: 0.5149
-Total nodes: 49315
-Epoch: 039, Train Loss: 0.0460, Validation Loss: 0.5231
-Total nodes: 49315
-Epoch: 040, Train Loss: 0.0464, Validation Loss: 0.5248
-Total nodes: 49315
-Epoch: 041, Train Loss: 0.0471, Validation Loss: 0.5196
-Total nodes: 49315
-Epoch: 042, Train Loss: 0.0488, Validation Loss: 0.5106
-Total nodes: 49315
-Epoch: 043, Train Loss: 0.0467, Validation Loss: 0.5154
-Total nodes: 49315
-Epoch: 044, Train Loss: 0.0468, Validation Loss: 0.5255
-Total nodes: 49315
-Epoch: 045, Train Loss: 0.0472, Validation Loss: 0.5341
-Total nodes: 49315
-Epoch: 046, Train Loss: 0.0462, Validation Loss: 0.5285
-Total nodes: 49315
-Epoch: 047, Train Loss: 0.0446, Validation Loss: 0.5271
-Total nodes: 49315
-Epoch: 048, Train Loss: 0.0477, Validation Loss: 0.5322
-Total nodes: 49315
-Epoch: 049, Train Loss: 0.0493, Validation Loss: 0.5323
-Total nodes: 49315
-Epoch: 050, Train Loss: 0.0484, Validation Loss: 0.5306
-Total nodes: 49315
-Epoch: 051, Train Loss: 0.0469, Validation Loss: 0.5290
-Total nodes: 49315
-Epoch: 052, Train Loss: 0.0468, Validation Loss: 0.5226
-Total nodes: 49315
-Epoch: 053, Train Loss: 0.0463, Validation Loss: 0.5269
-Total nodes: 49315
-Epoch: 054, Train Loss: 0.0453, Validation Loss: 0.5307
-Total nodes: 49315
-Epoch: 055, Train Loss: 0.0463, Validation Loss: 0.5262
-Total nodes: 49315
-Epoch: 056, Train Loss: 0.0446, Validation Loss: 0.5183
-Total nodes: 49315
-Epoch: 057, Train Loss: 0.0484, Validation Loss: 0.5322
-Total nodes: 49315
-Epoch: 058, Train Loss: 0.0472, Validation Loss: 0.5183
-Total nodes: 49315
-Epoch: 059, Train Loss: 0.0455, Validation Loss: 0.5349
-Total nodes: 49315
-Epoch: 060, Train Loss: 0.0449, Validation Loss: 0.5307
-Total nodes: 49315
-Epoch: 061, Train Loss: 0.0460, Validation Loss: 0.5327
-Total nodes: 49315
-Epoch: 062, Train Loss: 0.0435, Validation Loss: 0.5217
-Total nodes: 49315
-Epoch: 063, Train Loss: 0.0488, Validation Loss: 0.5233
-Total nodes: 49315
-Epoch: 064, Train Loss: 0.0473, Validation Loss: 0.5315
-Total nodes: 49315
-Epoch: 065, Train Loss: 0.0462, Validation Loss: 0.5187
-Total nodes: 49315
-Epoch: 066, Train Loss: 0.0474, Validation Loss: 0.5154
-Total nodes: 49315
-Epoch: 067, Train Loss: 0.0424, Validation Loss: 0.5223
-Total nodes: 49315
-Epoch: 068, Train Loss: 0.0464, Validation Loss: 0.5285
-Total nodes: 49315
-Epoch: 069, Train Loss: 0.0457, Validation Loss: 0.5157
-Total nodes: 49315
-Epoch: 070, Train Loss: 0.0456, Validation Loss: 0.5205
-Total nodes: 49315
-Epoch: 071, Train Loss: 0.0440, Validation Loss: 0.5321
-Total nodes: 49315
-Epoch: 072, Train Loss: 0.0447, Validation Loss: 0.5368
-Total nodes: 49315
-Epoch: 073, Train Loss: 0.0448, Validation Loss: 0.5277
-Total nodes: 49315
-Epoch: 074, Train Loss: 0.0428, Validation Loss: 0.5245
-Total nodes: 49315
-Epoch: 075, Train Loss: 0.0436, Validation Loss: 0.5308
-Total nodes: 49315
-Epoch: 076, Train Loss: 0.0462, Validation Loss: 0.5309
-Total nodes: 49315
-Epoch: 077, Train Loss: 0.0465, Validation Loss: 0.5320
-Total nodes: 49315
-Epoch: 078, Train Loss: 0.0437, Validation Loss: 0.5388
-Total nodes: 49315
-Epoch: 079, Train Loss: 0.0464, Validation Loss: 0.5383
-Total nodes: 49315
-Epoch: 080, Train Loss: 0.0441, Validation Loss: 0.5351
-Total nodes: 49315
-Epoch: 081, Train Loss: 0.0446, Validation Loss: 0.5244
-Total nodes: 49315
-Epoch: 082, Train Loss: 0.0480, Validation Loss: 0.5405
-Total nodes: 49315
-Epoch: 083, Train Loss: 0.0425, Validation Loss: 0.5257
-Total nodes: 49315
-Epoch: 084, Train Loss: 0.0451, Validation Loss: 0.5266
-Total nodes: 49315
-Epoch: 085, Train Loss: 0.0442, Validation Loss: 0.5259
-Total nodes: 49315
-Epoch: 086, Train Loss: 0.0440, Validation Loss: 0.5346
-Total nodes: 49315
-Epoch: 087, Train Loss: 0.0450, Validation Loss: 0.5303
-Total nodes: 49315
-Epoch: 088, Train Loss: 0.0460, Validation Loss: 0.5323
-Total nodes: 49315
-Epoch: 089, Train Loss: 0.0437, Validation Loss: 0.5340
-Total nodes: 49315
-Epoch: 090, Train Loss: 0.0407, Validation Loss: 0.5225
-Total nodes: 49315
-Epoch: 091, Train Loss: 0.0422, Validation Loss: 0.5334
-Total nodes: 49315
-Epoch: 092, Train Loss: 0.0414, Validation Loss: 0.5267
-Total nodes: 49315
-Epoch: 093, Train Loss: 0.0444, Validation Loss: 0.5356
-Total nodes: 49315
-Epoch: 094, Train Loss: 0.0434, Validation Loss: 0.5257
-Total nodes: 49315
-Epoch: 095, Train Loss: 0.0436, Validation Loss: 0.5387
-Total nodes: 49315
-Epoch: 096, Train Loss: 0.0433, Validation Loss: 0.5177
-Total nodes: 49315
-Epoch: 097, Train Loss: 0.0439, Validation Loss: 0.5234
-Total nodes: 49315
-Epoch: 098, Train Loss: 0.0444, Validation Loss: 0.5378
-Total nodes: 49315
-Epoch: 099, Train Loss: 0.0417, Validation Loss: 0.5323
-Total nodes: 49315
-Epoch: 100, Train Loss: 0.0427, Validation Loss: 0.5471
-Total nodes: 49315
-Epoch: 101, Train Loss: 0.0401, Validation Loss: 0.5343
-Total nodes: 49315
-Epoch: 102, Train Loss: 0.0434, Validation Loss: 0.5405
-Total nodes: 49315
-Epoch: 103, Train Loss: 0.0470, Validation Loss: 0.5302
-Total nodes: 49315
-Epoch: 104, Train Loss: 0.0437, Validation Loss: 0.5372
-Total nodes: 49315
-Epoch: 105, Train Loss: 0.0421, Validation Loss: 0.5262
-Total nodes: 49315
-Epoch: 106, Train Loss: 0.0449, Validation Loss: 0.5243
-Total nodes: 49315
-Epoch: 107, Train Loss: 0.0436, Validation Loss: 0.5433
-Total nodes: 49315
-Epoch: 108, Train Loss: 0.0429, Validation Loss: 0.5264
-Total nodes: 49315
-Epoch: 109, Train Loss: 0.0458, Validation Loss: 0.5276
-Total nodes: 49315
-Epoch: 110, Train Loss: 0.0437, Validation Loss: 0.5281
-Total nodes: 49315
-Epoch: 111, Train Loss: 0.0420, Validation Loss: 0.5284
-Total nodes: 49315
-Epoch: 112, Train Loss: 0.0423, Validation Loss: 0.5435
-Total nodes: 49315
-Epoch: 113, Train Loss: 0.0437, Validation Loss: 0.5384
-Total nodes: 49315
-Epoch: 114, Train Loss: 0.0430, Validation Loss: 0.5325
-Total nodes: 49315
-Epoch: 115, Train Loss: 0.0418, Validation Loss: 0.5399
-Total nodes: 49315
-Epoch: 116, Train Loss: 0.0422, Validation Loss: 0.5305
-Total nodes: 49315
-Epoch: 117, Train Loss: 0.0424, Validation Loss: 0.5298
-Total nodes: 49315
-Epoch: 118, Train Loss: 0.0427, Validation Loss: 0.5315
-Total nodes: 49315
-Epoch: 119, Train Loss: 0.0424, Validation Loss: 0.5288
-Total nodes: 49315
-Epoch: 120, Train Loss: 0.0425, Validation Loss: 0.5343
-Total nodes: 49315
-Epoch: 121, Train Loss: 0.0421, Validation Loss: 0.5210
-Total nodes: 49315
-Epoch: 122, Train Loss: 0.0422, Validation Loss: 0.5374
-Total nodes: 49315
-Epoch: 123, Train Loss: 0.0443, Validation Loss: 0.5314
-Total nodes: 49315
-Epoch: 124, Train Loss: 0.0454, Validation Loss: 0.5477
-Total nodes: 49315
-Epoch: 125, Train Loss: 0.0403, Validation Loss: 0.5399
-Total nodes: 49315
-Epoch: 126, Train Loss: 0.0390, Validation Loss: 0.5441
-Total nodes: 49315
-Epoch: 127, Train Loss: 0.0407, Validation Loss: 0.5380
-Total nodes: 49315
-Epoch: 128, Train Loss: 0.0399, Validation Loss: 0.5293
-Total nodes: 49315
-Epoch: 129, Train Loss: 0.0427, Validation Loss: 0.5350
-Total nodes: 49315
-Epoch: 130, Train Loss: 0.0418, Validation Loss: 0.5343
-Total nodes: 49315
-Epoch: 131, Train Loss: 0.0412, Validation Loss: 0.5395
-Total nodes: 49315
-Epoch: 132, Train Loss: 0.0396, Validation Loss: 0.5252
-Total nodes: 49315
-Epoch: 133, Train Loss: 0.0422, Validation Loss: 0.5492
-Total nodes: 49315
-Epoch: 134, Train Loss: 0.0392, Validation Loss: 0.5309
-Total nodes: 49315
-Epoch: 135, Train Loss: 0.0387, Validation Loss: 0.5383
-Total nodes: 49315
-Epoch: 136, Train Loss: 0.0422, Validation Loss: 0.5365
-Total nodes: 49315
-Epoch: 137, Train Loss: 0.0374, Validation Loss: 0.5298
-Total nodes: 49315
-Epoch: 138, Train Loss: 0.0417, Validation Loss: 0.5156
-Total nodes: 49315
-Epoch: 139, Train Loss: 0.0449, Validation Loss: 0.5507
-Total nodes: 49315
-Epoch: 140, Train Loss: 0.0400, Validation Loss: 0.5306
-Total nodes: 49315
-Epoch: 141, Train Loss: 0.0377, Validation Loss: 0.5331
-Total nodes: 49315
-Epoch: 142, Train Loss: 0.0401, Validation Loss: 0.5271
-Total nodes: 49315
-Epoch: 143, Train Loss: 0.0423, Validation Loss: 0.5236
-Total nodes: 49315
-Epoch: 144, Train Loss: 0.0435, Validation Loss: 0.5269
-Total nodes: 49315
-Epoch: 145, Train Loss: 0.0394, Validation Loss: 0.5388
-Total nodes: 49315
-Epoch: 146, Train Loss: 0.0394, Validation Loss: 0.5431
-Total nodes: 49315
-Epoch: 147, Train Loss: 0.0394, Validation Loss: 0.5316
-Total nodes: 49315
-Epoch: 148, Train Loss: 0.0377, Validation Loss: 0.5234
-Total nodes: 49315
-Epoch: 149, Train Loss: 0.0414, Validation Loss: 0.5254
-Total nodes: 49315
-Epoch: 150, Train Loss: 0.0392, Validation Loss: 0.5297
-Total nodes: 49315
-Epoch: 151, Train Loss: 0.0391, Validation Loss: 0.5385
-Total nodes: 49315
-Epoch: 152, Train Loss: 0.0406, Validation Loss: 0.5183
-Total nodes: 49315
-Epoch: 153, Train Loss: 0.0398, Validation Loss: 0.5350
-Total nodes: 49315
-Epoch: 154, Train Loss: 0.0394, Validation Loss: 0.5358
-Total nodes: 49315
-Epoch: 155, Train Loss: 0.0414, Validation Loss: 0.5303
-Total nodes: 49315
-Epoch: 156, Train Loss: 0.0406, Validation Loss: 0.5323
-Total nodes: 49315
-Epoch: 157, Train Loss: 0.0417, Validation Loss: 0.5315
-Total nodes: 49315
-Epoch: 158, Train Loss: 0.0422, Validation Loss: 0.5285
-Total nodes: 49315
-Epoch: 159, Train Loss: 0.0389, Validation Loss: 0.5390
-Total nodes: 49315
-Epoch: 160, Train Loss: 0.0395, Validation Loss: 0.5381
-Total nodes: 49315
-Epoch: 161, Train Loss: 0.0370, Validation Loss: 0.5435
-Total nodes: 49315
-Epoch: 162, Train Loss: 0.0411, Validation Loss: 0.5218
-Total nodes: 49315
-Epoch: 163, Train Loss: 0.0409, Validation Loss: 0.5282
-Total nodes: 49315
-Epoch: 164, Train Loss: 0.0406, Validation Loss: 0.5384
-Total nodes: 49315
-Epoch: 165, Train Loss: 0.0392, Validation Loss: 0.5301
-Total nodes: 49315
-Epoch: 166, Train Loss: 0.0388, Validation Loss: 0.5323
-Total nodes: 49315
-Epoch: 167, Train Loss: 0.0391, Validation Loss: 0.5266
-Total nodes: 49315
-Epoch: 168, Train Loss: 0.0413, Validation Loss: 0.5269
-Total nodes: 49315
-Epoch: 169, Train Loss: 0.0398, Validation Loss: 0.5319
-Total nodes: 49315
-Epoch: 170, Train Loss: 0.0389, Validation Loss: 0.5235
-Total nodes: 49315
-Epoch: 171, Train Loss: 0.0390, Validation Loss: 0.5271
-Total nodes: 49315
-Epoch: 172, Train Loss: 0.0369, Validation Loss: 0.5295
-Total nodes: 49315
-Epoch: 173, Train Loss: 0.0395, Validation Loss: 0.5202
-Total nodes: 49315
-Epoch: 174, Train Loss: 0.0401, Validation Loss: 0.5236
-Total nodes: 49315
-Epoch: 175, Train Loss: 0.0361, Validation Loss: 0.5260
-Total nodes: 49315
-Epoch: 176, Train Loss: 0.0397, Validation Loss: 0.5294
-Total nodes: 49315
-Epoch: 177, Train Loss: 0.0386, Validation Loss: 0.5219
-Total nodes: 49315
-Epoch: 178, Train Loss: 0.0379, Validation Loss: 0.5418
-Total nodes: 49315
-Epoch: 179, Train Loss: 0.0391, Validation Loss: 0.5290
-Total nodes: 49315
-Epoch: 180, Train Loss: 0.0365, Validation Loss: 0.5202
-Total nodes: 49315
-Epoch: 181, Train Loss: 0.0368, Validation Loss: 0.5197
-Total nodes: 49315
-Epoch: 182, Train Loss: 0.0427, Validation Loss: 0.5363
-Total nodes: 49315
-Epoch: 183, Train Loss: 0.0389, Validation Loss: 0.5351
-Total nodes: 49315
-Epoch: 184, Train Loss: 0.0400, Validation Loss: 0.5298
-Total nodes: 49315
-Epoch: 185, Train Loss: 0.0392, Validation Loss: 0.5303
-Total nodes: 49315
-Epoch: 186, Train Loss: 0.0381, Validation Loss: 0.5244
-Total nodes: 49315
-Epoch: 187, Train Loss: 0.0347, Validation Loss: 0.5370
-Total nodes: 49315
-Epoch: 188, Train Loss: 0.0370, Validation Loss: 0.5281
-Total nodes: 49315
-Epoch: 189, Train Loss: 0.0397, Validation Loss: 0.5304
-Total nodes: 49315
-Epoch: 190, Train Loss: 0.0347, Validation Loss: 0.5324
-Total nodes: 49315
-Epoch: 191, Train Loss: 0.0370, Validation Loss: 0.5396
-Total nodes: 49315
-Epoch: 192, Train Loss: 0.0374, Validation Loss: 0.5321
-Total nodes: 49315
-Epoch: 193, Train Loss: 0.0379, Validation Loss: 0.5267
-Total nodes: 49315
-Epoch: 194, Train Loss: 0.0395, Validation Loss: 0.5305
-Total nodes: 49315
-Epoch: 195, Train Loss: 0.0373, Validation Loss: 0.5305
-Total nodes: 49315
-Epoch: 196, Train Loss: 0.0377, Validation Loss: 0.5183
-Total nodes: 49315
-Epoch: 197, Train Loss: 0.0356, Validation Loss: 0.5322
-Total nodes: 49315
-Epoch: 198, Train Loss: 0.0389, Validation Loss: 0.5348
-Total nodes: 49315
-Epoch: 199, Train Loss: 0.0368, Validation Loss: 0.5268
-Total nodes: 49315
-Epoch: 200, Train Loss: 0.0370, Validation Loss: 0.5241
-Total nodes: 49315
-Epoch: 201, Train Loss: 0.0372, Validation Loss: 0.5229
-Total nodes: 49315
-Epoch: 202, Train Loss: 0.0361, Validation Loss: 0.5242
-Total nodes: 49315
-Epoch: 203, Train Loss: 0.0375, Validation Loss: 0.5302
-Total nodes: 49315
-Epoch: 204, Train Loss: 0.0383, Validation Loss: 0.5254
-Total nodes: 49315
-Epoch: 205, Train Loss: 0.0358, Validation Loss: 0.5374
-Total nodes: 49315
-Epoch: 206, Train Loss: 0.0390, Validation Loss: 0.5337
-Total nodes: 49315
-Epoch: 207, Train Loss: 0.0367, Validation Loss: 0.5248
-Total nodes: 49315
-Epoch: 208, Train Loss: 0.0367, Validation Loss: 0.5246
-Total nodes: 49315
-Epoch: 209, Train Loss: 0.0367, Validation Loss: 0.5329
-Total nodes: 49315
-Epoch: 210, Train Loss: 0.0361, Validation Loss: 0.5266
-Total nodes: 49315
-Epoch: 211, Train Loss: 0.0386, Validation Loss: 0.5408
-Total nodes: 49315
-Epoch: 212, Train Loss: 0.0382, Validation Loss: 0.5388
-Total nodes: 49315
-Epoch: 213, Train Loss: 0.0354, Validation Loss: 0.5370
-Total nodes: 49315
-Epoch: 214, Train Loss: 0.0355, Validation Loss: 0.5407
-Total nodes: 49315
-Epoch: 215, Train Loss: 0.0373, Validation Loss: 0.5269
-Total nodes: 49315
-Epoch: 216, Train Loss: 0.0358, Validation Loss: 0.5146
-Total nodes: 49315
-Epoch: 217, Train Loss: 0.0366, Validation Loss: 0.5295
-Total nodes: 49315
-Epoch: 218, Train Loss: 0.0367, Validation Loss: 0.5294
-Total nodes: 49315/home/llma/wzy/comorbidity/Codes/embedding.py:141: DtypeWarning: Columns (0,1) have mixed types. Specify dtype option on import or set low_memory=False.
-  adj_matrix = pd.read_csv(adj_path, sep='\t')
-
-Epoch: 219, Train Loss: 0.0363, Validation Loss: 0.5283
-Total nodes: 49315
-Early stopping for train loss!
-The best model: 190th epoch
-Reading graph:   0%|          | 0/12786750 [00:00<?, ?it/s]Reading graph:   2%|▏         | 194868/12786750 [00:00<00:06, 1948468.16it/s]Reading graph:   3%|▎         | 417215/12786750 [00:00<00:05, 2084820.48it/s]Reading graph:   5%|▍         | 633018/12786750 [00:00<00:05, 2117999.91it/s]Reading graph:   7%|▋         | 845835/12786750 [00:00<00:05, 2104439.27it/s]Reading graph:   8%|▊         | 1062949/12786750 [00:00<00:05, 2128272.57it/s]Reading graph:  10%|▉         | 1275788/12786750 [00:00<00:05, 2071385.60it/s]Reading graph:  12%|█▏        | 1483189/12786750 [00:00<00:05, 1898114.38it/s]Reading graph:  13%|█▎        | 1687226/12786750 [00:00<00:05, 1940063.71it/s]Reading graph:  15%|█▍        | 1883253/12786750 [00:00<00:05, 1901681.80it/s]Reading graph:  16%|█▋        | 2089482/12786750 [00:01<00:05, 1948673.50it/s]Reading graph:  18%|█▊        | 2285565/12786750 [00:01<00:05, 1862623.18it/s]Reading graph:  19%|█▉        | 2491584/12786750 [00:01<00:05, 1919244.10it/s]Reading graph:  21%|██        | 2708272/12786750 [00:01<00:05, 1991178.08it/s]Reading graph:  23%|██▎       | 2908617/12786750 [00:01<00:05, 1718378.61it/s]Reading graph:  25%|██▍       | 3139753/12786750 [00:01<00:05, 1875638.09it/s]Reading graph:  26%|██▋       | 3374660/12786750 [00:01<00:04, 2005703.95it/s]Reading graph:  28%|██▊       | 3607096/12786750 [00:01<00:04, 2095506.45it/s]Reading graph:  30%|███       | 3846733/12786750 [00:01<00:04, 2181852.60it/s]Reading graph:  32%|███▏      | 4086978/12786750 [00:02<00:03, 2245982.14it/s]Reading graph:  34%|███▍      | 4322690/12786750 [00:02<00:03, 2278577.51it/s]Reading graph:  36%|███▌      | 4558286/12786750 [00:02<00:03, 2301410.57it/s]Reading graph:  37%|███▋      | 4793344/12786750 [00:02<00:03, 2315959.88it/s]Reading graph:  39%|███▉      | 5026014/12786750 [00:02<00:03, 2317430.98it/s]Reading graph:  41%|████      | 5261767/12786750 [00:02<00:03, 2329358.40it/s]Reading graph:  43%|████▎     | 5498545/12786750 [00:02<00:03, 2340810.18it/s]Reading graph:  45%|████▍     | 5736436/12786750 [00:02<00:02, 2352179.50it/s]Reading graph:  47%|████▋     | 5986161/12786750 [00:02<00:02, 2395586.19it/s]Reading graph:  49%|████▉     | 6258142/12786750 [00:02<00:02, 2492683.81it/s]Reading graph:  51%|█████     | 6526582/12786750 [00:03<00:02, 2550110.69it/s]Reading graph:  53%|█████▎    | 6794659/12786750 [00:03<00:02, 2589251.74it/s]Reading graph:  55%|█████▌    | 7064466/12786750 [00:03<00:02, 2621849.60it/s]Reading graph:  57%|█████▋    | 7331181/12786750 [00:03<00:02, 2635405.40it/s]Reading graph:  59%|█████▉    | 7596741/12786750 [00:03<00:01, 2641430.84it/s]Reading graph:  62%|██████▏   | 7866198/12786750 [00:03<00:01, 2657336.09it/s]Reading graph:  64%|██████▎   | 8138656/12786750 [00:03<00:01, 2677472.68it/s]Reading graph:  66%|██████▌   | 8418048/12786750 [00:03<00:01, 2712330.14it/s]Reading graph:  68%|██████▊   | 8699710/12786750 [00:03<00:01, 2743583.52it/s]Reading graph:  70%|███████   | 8978170/12786750 [00:03<00:01, 2755856.80it/s]Reading graph:  72%|███████▏  | 9255739/12786750 [00:04<00:01, 2761775.59it/s]Reading graph:  75%|███████▍  | 9531921/12786750 [00:04<00:01, 2760328.76it/s]Reading graph:  77%|███████▋  | 9807957/12786750 [00:04<00:01, 2756692.68it/s]Reading graph:  79%|███████▉  | 10083630/12786750 [00:04<00:00, 2752261.05it/s]Reading graph:  81%|████████  | 10360436/12786750 [00:04<00:00, 2756956.74it/s]Reading graph:  83%|████████▎ | 10640248/12786750 [00:04<00:00, 2769249.77it/s]Reading graph:  85%|████████▌ | 10922662/12786750 [00:04<00:00, 2785663.61it/s]Reading graph:  88%|████████▊ | 11209472/12786750 [00:04<00:00, 2810319.80it/s]Reading graph:  90%|████████▉ | 11490509/12786750 [00:04<00:00, 2754657.82it/s]Reading graph:  92%|█████████▏| 11766222/12786750 [00:04<00:00, 2531646.04it/s]Reading graph:  94%|█████████▍| 12022903/12786750 [00:05<00:00, 2459952.18it/s]Reading graph:  96%|█████████▌| 12271424/12786750 [00:05<00:00, 2194543.27it/s]Reading graph:  98%|█████████▊| 12496976/12786750 [00:05<00:00, 2200978.75it/s]Reading graph:  99%|█████████▉| 12721428/12786750 [00:05<00:00, 2053403.20it/s]                                                                               
+Reading graph:   0%|          | 0/1649410 [00:00<?, ?it/s]Reading graph:  13%|█▎        | 209717/1649410 [00:00<00:00, 2096897.03it/s]Reading graph:  26%|██▋       | 434828/1649410 [00:00<00:00, 2187468.86it/s]Reading graph:  40%|███▉      | 653575/1649410 [00:00<00:00, 2146022.15it/s]Reading graph:  53%|█████▎    | 868269/1649410 [00:00<00:00, 2055961.94it/s]Reading graph:  65%|██████▌   | 1074378/1649410 [00:00<00:00, 1788832.12it/s]Reading graph:  79%|███████▊  | 1298482/1649410 [00:00<00:00, 1925287.97it/s]Reading graph:  91%|█████████ | 1495911/1649410 [00:00<00:00, 1851303.81it/s]                                                                             Reading graph:   0%|          | 0/481266 [00:00<?, ?it/s]Reading graph:  48%|████▊     | 228928/481266 [00:00<00:00, 2289091.17it/s]Reading graph:  96%|█████████▌| 460363/481266 [00:00<00:00, 2303891.93it/s]                                                                           
