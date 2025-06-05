@@ -149,8 +149,8 @@ def fit_transform(features,
     # 创建 NeighborLoader
     neighbor_loader = NeighborLoader(
         data,
-        num_neighbors=[-1,-1,-1],  # 每层采样的邻居数量
-        batch_size=10,  # 批量大小
+        num_neighbors=[-1,-1],  # 每层采样的邻居数量
+        batch_size=100,  # 批量大小
         shuffle=True
     )
 
@@ -171,14 +171,15 @@ def fit_transform(features,
             batch_edge_index = batch_edge_index.contiguous()
             pos_z, neg_z, summary = model(batch_features, batch_edge_index)
 
-            batch_size = batch.batch_size
-            pos_z = pos_z[:batch_size]
-            neg_z = neg_z[:batch_size]
-            summary = summary[:batch_size]
+            # batch_size = batch.batch_size
+            # pos_z = pos_z[:batch_size]
+            # neg_z = neg_z[:batch_size]
+            # summary = summary[:batch_size]
             
             loss = model.loss(pos_z, neg_z, summary)
             loss.backward()
             optimizer.step()
+            #nodes = batch_size
             nodes = batch.n_id.size(0)
             total_nodes += nodes
             total_loss += loss.item() * nodes
@@ -219,8 +220,8 @@ def fit_transform(features,
     # validation for neighborLoader
     loader_for_validation = NeighborLoader(
         data_validation,
-        num_neighbors=[-1, -1, -1],  # all neighbors
-        batch_size=10,  # 批量大小
+        num_neighbors=[-1, -1],  # all neighbors
+        batch_size=100,  # 批量大小
         shuffle=False
     )
 
@@ -239,12 +240,13 @@ def fit_transform(features,
                 batch_edge_index = batch_edge_index.contiguous()
                 pos_z, neg_z, summary = model(batch_features, batch_edge_index)
 
-                batch_size = batch.batch_size
-                pos_z = pos_z[:batch_size]
-                neg_z = neg_z[:batch_size]
-                summary = summary[:batch_size]
+                # batch_size = batch.batch_size
+                # pos_z = pos_z[:batch_size]
+                # neg_z = neg_z[:batch_size]
+                # summary = summary[:batch_size]
             
                 loss = model.loss(pos_z, neg_z, summary)
+                # nodes = batch_size
                 nodes = batch.n_id.size(0)
                 total_nodes += nodes
                 total_loss += loss.item() * nodes
