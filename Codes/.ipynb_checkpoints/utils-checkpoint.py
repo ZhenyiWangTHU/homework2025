@@ -10,6 +10,7 @@ import networkx as nx
 #from node2vec import Node2Vec
 from fastnode2vec import Graph, Node2Vec 
 from scipy.sparse import csr_matrix
+import re
 
 def data2tsne(data, n_pca=0):
     if n_pca > 0:
@@ -131,3 +132,34 @@ def N2V(graph, hid_units, p=1, q=1, walk_length=20, num_walks=40):
     
 # if __name__ == '__main__':
 #     pass
+
+def classify_element(element):
+    # 正则表达式模式
+    pattern_id = r'^\d+$'  # 全数字（病人ID）
+    pattern_code = r'^[A-Z][A-Z\d]*$'  # 大写字母开头，后跟数字or大写字母(icd10)
+    pattern_protein = r'^[a-z\d][a-z\d_]*$'
+    
+    # 分类判断
+    if re.match(pattern_id, element):
+        return 'eid'
+    elif re.match(pattern_code, element):
+        return 'icd10'
+    elif re.match(pattern_protein, element):
+        return 'protein'
+    else:
+        return 'metabolite'
+
+def get_edge_types(data):
+    """从PyG异构图数据对象中提取所有边类型"""
+    edge_types = []
+    
+    # 遍历数据对象中的所有属性
+    for key in data.keys():
+        # 检查是否为边索引属性（格式为 (源节点类型, 边关系, 目标节点类型)）
+        if isinstance(key, tuple) and len(key) == 3:
+            src_type, relation, dst_type = key
+            # 检查对应的值是否为边索引张量
+            if isinstance(data[key], torch.Tensor) and data[key].dim() == 2:
+                edge_types.append((src_type, relation, dst_type))
+    
+    return edge_types
