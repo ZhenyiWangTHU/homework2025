@@ -11,7 +11,7 @@ if __name__=="__main__":
     
     # 读取保存的图数据
     # HGData = torch.load('../Data/HGData_Undir_with_self_loops.pt', weights_only=False)
-    HGData = torch.load('/home/llma/wzy/comorbidity/Data/DBLP.pt', weights_only=False)
+    HGData = torch.load('/home/llma/wzy/comorbidity/Data/HGData_Undir_with_self_loops_add_default_edge_attr.pt', weights_only=False)
 
     fit_transform(data=HGData,
                   device='cuda', 
@@ -19,7 +19,7 @@ if __name__=="__main__":
                   patience=30, 
                   n_epoch=300, 
                   learning_ratio = 0.001,
-                  tmp_path='DBLP_HGT_model.pkl')  
+                  tmp_path='UKB_HGT_model.pkl')  
 
     # embedData(modelPath = './UKB_best_dgi_all_GAT_add_filtered_disGeNet_disease_disease_PPI_proteinTopEid_metaboliteTopEid.pkl', 
     #           features = features, 

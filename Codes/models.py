@@ -7,11 +7,12 @@ import torch
 import torch.nn as nn
 
 from torch_geometric.nn import HGTConv, MessagePassing
+from EdgeAwareHGTConv import EdgeAwareHGTConv
 
 import utils
 
 class Encoder(nn.Module):
-    def __init__(self, node_types, edge_types, in_channels_dict, hidden_channels, dropout=0.5, num_layers=2):
+    def __init__(self, node_types, edge_types, edge_attr_sizes, in_channels_dict, hidden_channels, dropout=0.5, num_layers=2):
         """
         异构图编码器
         
@@ -27,6 +28,7 @@ class Encoder(nn.Module):
         self.node_types = node_types
         self.edge_types = edge_types
         self.in_channels_dict = in_channels_dict
+        self.edge_attr_sizes = edge_attr_sizes
         self.hidden_channels = hidden_channels
         self.num_layers = num_layers
         
@@ -39,18 +41,19 @@ class Encoder(nn.Module):
         self.convs = nn.ModuleList()
         self.dropouts = nn.ModuleList()  # 添加Dropout层列表
         for _ in range(num_layers):
-            self.convs.append(HGTConv(
-                hidden_channels,
-                hidden_channels,
+            self.convs.append(EdgeAwareHGTConv(
+                in_channels=hidden_channels,
+                out_channels=hidden_channels,
                 metadata=(node_types, edge_types),
-                heads=8
+                heads=8,
+                edge_attr_sizes=edge_attr_sizes
             ))
             self.dropouts.append(nn.Dropout(dropout))  # 添加Dropout层
         
         self.prelu = nn.PReLU(hidden_channels)
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, x_dict, edge_index_dict):
+    def forward(self, x_dict, edge_index_dict, edge_attr_dict):
         # 1. 特征投影
         x_proj_dict = {}
         for node_type, x in x_dict.items():
@@ -60,7 +63,7 @@ class Encoder(nn.Module):
         # 2. 多层HGT卷积
         out_dict = x_proj_dict
         for i, conv in enumerate(self.convs):
-            out_dict = conv(out_dict, edge_index_dict)
+            out_dict = conv(out_dict, edge_index_dict, edge_attr_dict)
             # 每层后应用激活和dropout
             for node_type in self.node_types:
                 if node_type in out_dict:
@@ -246,13 +249,13 @@ class GraphLocalInfomax(torch.nn.Module):
         for node_type in self.weight_dict:
             uniform(self.hidden_channels, self.weight_dict[node_type].weight)
 
-    def forward(self, x_dict, edge_index_dict):
+    def forward(self, x_dict, edge_index_dict, edge_attr_dict):
         # 编码原始图得到正样本表示
-        pos_z_dict = self.encoder(x_dict, edge_index_dict)
+        pos_z_dict = self.encoder(x_dict, edge_index_dict, edge_attr_dict)
         
         # 生成负样本
         corrupted_x_dict, corrupted_edge_index_dict = self.corruption(x_dict, edge_index_dict)
-        neg_z_dict = self.encoder(corrupted_x_dict, edge_index_dict)
+        neg_z_dict = self.encoder(corrupted_x_dict, edge_index_dict, edge_attr_dict)
         
         # 生成图摘要
         summary_dict = self.summary(pos_z_dict, edge_index_dict)
