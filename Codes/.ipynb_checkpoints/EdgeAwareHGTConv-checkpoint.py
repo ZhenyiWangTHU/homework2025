@@ -69,13 +69,21 @@ class EdgeAwareHGTConv(MessagePassing):
         
         ### process edge attr ###
         self.edge_attr_sizes = edge_attr_sizes or {}  # 边类型到属性维度的映射
-        self.edge_attr_lin = ParameterDict()  # 边属性线性变换层
+        self.edge_attr_mlp = nn.ModuleDict()  # 边属性MLP变换层
         # 为每个有属性的边类型创建线性层，将边属性映射到注意力空间
         for edge_type in self.edge_types:
             if edge_type in self.edge_attr_sizes and self.edge_attr_sizes[edge_type] > 0:
                 # 映射维度为 heads（与多头注意力维度匹配）
-                self.edge_attr_lin[f"{edge_type[0]}_{edge_type[1]}_{edge_type[2]}"] = nn.Linear(
-                    self.edge_attr_sizes[edge_type], heads, bias=False
+                edge_key = f"{edge_type[0]}_{edge_type[1]}_{edge_type[2]}"
+                input_dim = self.edge_attr_sizes[edge_type]
+                
+                # 使用两层MLP，中间层维度设为输入维度和输出维度的平均值，可根据需要调整
+                hidden_dim = (input_dim + heads) // 2
+                
+                self.edge_attr_mlp[edge_key] = nn.Sequential(
+                    nn.Linear(input_dim, hidden_dim),
+                    nn.ReLU(),  # 使用ReLU激活函数
+                    nn.Linear(hidden_dim, heads)
                 )
         ###
         
@@ -214,9 +222,9 @@ class EdgeAwareHGTConv(MessagePassing):
             #     continue  # 跳过无属性的边类型
             # 用线性层映射边属性到多头维度（[num_edges, heads]）
             key = f"{edge_type[0]}_{edge_type[1]}_{edge_type[2]}"
-            if key in self.edge_attr_lin:
+            if key in self.edge_attr_mlp:
                 # 无论原始维度，都映射到[E, H]
-                edge_attr_processed[edge_type] = self.edge_attr_lin[key](attr)
+                edge_attr_processed[edge_type] = self.edge_attr_mlp[key](attr)
         ### 
 
         ### 构造 bipartite edge_index 时融入处理后的边属性 ###

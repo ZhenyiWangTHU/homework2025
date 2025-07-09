@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/llma/wzy/comorbidity/Codes/main_UKB_HGT.py", line 15, in <module>
+    fit_transform(data=HGData,
+  File "/home/llma/wzy/comorbidity/Codes/train.py", line 69, in fit_transform
+    init_params(model, train_loader, device)
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/train.py", line 67, in init_params
+    model(batch.x_dict, batch.edge_index_dict, batch.edge_attr_dict)
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/models.py", line 254, in forward
+    pos_z_dict = self.encoder(x_dict, edge_index_dict, edge_attr_dict)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/models.py", line 66, in forward
+    out_dict = conv(out_dict, edge_index_dict, edge_attr_dict)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llma/wzy/comorbidity/Codes/EdgeAwareHGTConv.py", line 225, in forward
+    if key in self.edge_attr_lin:
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/llma/anaconda3/envs/GAT/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1928, in __getattr__
+    raise AttributeError(
+AttributeError: 'EdgeAwareHGTConv' object has no attribute 'edge_attr_lin'. Did you mean: 'edge_attr_mlp'?
